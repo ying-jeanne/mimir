@@ -1234,6 +1234,8 @@ github.com/subosito/gotenv v1.4.1/go.mod h1:ayKnFf/c6rvx/2iiLrJUk1e6plDbT3edrFNG
 github.com/tencentyun/cos-go-sdk-v5 v0.7.40 h1:W6vDGKCHe4wBACI1d2UgE6+50sJFhRWU4O8IB2ozzxM=
 github.com/thanos-io/objstore v0.0.0-20230727115635-d0c43443ecda h1:DtxaU/a7QRPiUhwtPrZFlS81y+9Mgny4KoLq65cu04U=
 github.com/thanos-io/objstore v0.0.0-20230727115635-d0c43443ecda/go.mod h1:IS7Z25+0KaknyU2P5PTP/5hwY6Yr/FzbInF88Yd5auU=
+github.com/thanos-io/objstore v0.0.0-20230829152104-1b257a36f9a3 h1:avZFY25vRM35FggTBQj2WXq45yEvIKbDLUcNDrJLfKU=
+github.com/thanos-io/objstore v0.0.0-20230829152104-1b257a36f9a3/go.mod h1:oJ82xgcBDzGJrEgUsjlTj6n01+ZWUMMUR8BlZzX5xDE=
 github.com/tidwall/pretty v1.0.0/go.mod h1:XNkn88O1ChpSDQmQeStsy+sBenx6DDtFZJxhVysOjyk=
 github.com/tv42/httpunix v0.0.0-20150427012821-b75d8614f926/go.mod h1:9ESjWnEqriFuLhtthL60Sar/7RFoluCcXsuvEwTV5KM=
 github.com/uber/jaeger-client-go v2.30.0+incompatible h1:D6wyKGCecFaSRUpo8lCVbaOOb6ThwMmTEbhRwtKR97o=
