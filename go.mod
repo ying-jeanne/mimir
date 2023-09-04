@@ -35,7 +35,7 @@ require (
 	github.com/prometheus/prometheus v1.8.2-0.20220620125440-d7e7b8e04b5e
 	github.com/segmentio/fasthash v1.0.3
 	github.com/sirupsen/logrus v1.9.3
-	github.com/sony/gobreaker v0.5.1-0.20230503171616-f4dfee680910
+	github.com/sony/gobreaker v0.5.1-0.20230813165220-70f7cbc53af9
 	github.com/spf13/afero v1.9.5
 	github.com/stretchr/testify v1.8.4
 	github.com/uber/jaeger-client-go v2.30.0+incompatible
