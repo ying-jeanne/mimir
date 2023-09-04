@@ -3,11 +3,11 @@
   "extends": [
     "config:base"
   ],
-  "baseBranches": ["main", "/^release-.*"],
+  "baseBranches": ["main", "release-2.8"],
   "prHourlyLimit": 4,
   "packageRules": [
     {
-      "matchBaseBranches": ["/^release-.*"],
+      "matchBaseBranches": ["release-2.8"],
       "packagePatterns": ["*"],
       "enabled": false
     },
