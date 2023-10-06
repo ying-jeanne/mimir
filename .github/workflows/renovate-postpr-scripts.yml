@@ -31,12 +31,19 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Run Git Config
+        run: |
+          git config --global user.email "${{ github.event.pull_request.user.login }}@users.noreply.github.com"
+          git config --global user.name "${{ github.event.pull_request.user.login }}"
+
+      - name: Checkout Pull Request Branch
+        run: gh pr checkout ${{ github.event.pull_request.number }}
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
   
       - name: Install the gh cli
         uses: ksivamuthu/actions-setup-gh-cli@v2
-
-      - name: Run Git Config
-        run: git config --global --add safe.directory '*'
 
       - name: Checkout Pull Request Branch
         run: gh pr checkout ${{ github.event.pull_request.number }}
@@ -63,10 +70,8 @@ jobs:
         if: steps.check_updates.outputs.diff != '0'
         run: |
             echo "Add commit to fix linting errors"
-            git config --global user.email "${{ github.event.pull_request.user.login }}@users.noreply.github.com"
-            git config --global user.name "${{ github.event.pull_request.user.login }}"
             git add .
             git commit -m "Update build with linting fixes"
-            git push origin ${{ github.event.pull_request.head.ref }}
+            git push
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
