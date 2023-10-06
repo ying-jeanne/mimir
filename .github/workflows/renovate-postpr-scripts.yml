@@ -57,7 +57,7 @@ jobs:
       - name: Check Updates
         id: check_updates
         run: |
-          if ./tools/find-diff-or-untracked.sh .; then
+          if ./tools/find-diff-or-untracked.sh operations/; then
             echo "diff=0" >> "$GITHUB_OUTPUT" # Script success, no change
           else
             echo "diff=1" >> "$GITHUB_OUTPUT" # Script failed, changes exist
