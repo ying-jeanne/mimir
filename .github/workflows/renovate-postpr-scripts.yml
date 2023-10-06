@@ -32,15 +32,15 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-
-      - name: Run Git Config
-        run: git config --global --add safe.directory '*'
   
+      - name: Install GH CLI
+        uses: dev-hanz-ops/install-gh-cli-action
+      
+      - name: Checkout Pull Request Branch
+        run: gh pr checkout ${{ github.event.pull_request.number }}
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
       - name: Update Helm Test
         id: update
         run: |
