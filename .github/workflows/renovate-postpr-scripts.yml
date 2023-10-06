@@ -31,6 +31,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.TEST }}
 
       - name: Run Git Config
         run: |
@@ -44,7 +46,7 @@ jobs:
       - name: Checkout Pull Request Branch
         run: gh pr checkout ${{ github.event.pull_request.number }}
         env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.TEST }}
 
       - name: Update Helm Test
         id: update
