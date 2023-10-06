@@ -48,7 +48,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TEST }}
 
-      - name: Update Helm Test
+      - name: Update with changes
         id: update
         run: |
           make BUILD_IN_CONTAINER=false doc
