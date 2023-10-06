@@ -57,7 +57,7 @@ jobs:
           if ./tools/find-diff-or-untracked.sh .; then
             echo "diff=0" >> "$GITHUB_OUTPUT" # Script success, no change
           else
-            echo "diff=1" >> >> "$GITHUB_OUTPUT" # Script failed, exist changes
+            echo "diff=1" >> "$GITHUB_OUTPUT" # Script failed, changes exist
           fi
           
 
