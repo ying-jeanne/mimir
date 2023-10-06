@@ -35,6 +35,16 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
 
+      - name: Run Git Config
+        run: git config --global --add safe.directory '*'
+
+        # Commands in the Makefile are hardcoded with an assumed file structure of the CI container
+        # Symlink ensures paths specified in previous commands don’t break
+      - name: Symlink Expected Path to Workspace
+        run: |
+          mkdir -p /go/src/github.com/grafana/mimir
+          ln -s $GITHUB_WORKSPACE/* /go/src/github.com/grafana/mimir
+  
       - name: Update Helm Test
         id: update
         run: |
@@ -43,6 +53,7 @@ jobs:
       - name: Check Updates
         id: check_updates
         run: |
+          ls -la
           ././tools/find-diff-or-untracked.sh .
           echo "diff=exit-code::${?}"  # Capture exit code
 
