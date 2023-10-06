@@ -31,6 +31,9 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
 
       - name: Checkout Pull Request Branch
         run: gh pr checkout ${{ github.event.pull_request.number }}
@@ -40,7 +43,6 @@ jobs:
       - name: Update Helm Test
         id: update
         run: |
-          make BUILD_IN_CONTAINER=false doc
           make BUILD_IN_CONTAINER=false build-helm-tests
       
       - name: Check Updates
