@@ -25,6 +25,7 @@ jobs:
       - name: Update Helm Test
         id: update
         run: |
+          make doc
           make build-helm-tests
       
       - name: Check Updates
