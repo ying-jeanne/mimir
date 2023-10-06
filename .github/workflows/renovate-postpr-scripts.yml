@@ -69,5 +69,3 @@ jobs:
             git add .
             git commit -m "Update build with linting fixes"
             git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.TEST }}
