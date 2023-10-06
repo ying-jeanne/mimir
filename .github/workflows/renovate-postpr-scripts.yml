@@ -54,8 +54,12 @@ jobs:
         id: check_updates
         run: |
           ls -la
-          ././tools/find-diff-or-untracked.sh .
-          echo "diff=exit-code::${?}"  # Capture exit code
+          if ./tools/find-diff-or-untracked.sh .; then
+            echo "diff=0"  # Script success, no change
+          else
+            echo "diff=1" "Script failed, exist changes"
+          fi
+          
 
       - name: Update PR
         id: update_pr
