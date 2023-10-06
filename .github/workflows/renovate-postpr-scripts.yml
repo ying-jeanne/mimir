@@ -32,8 +32,8 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
   
-      - name: Install GH CLI
-        uses: dev-hanz-ops/install-gh-cli-action
+      - name: Install the gh cli
+        uses: ksivamuthu/actions-setup-gh-cli@v2
 
       - name: Run Git Config
         run: git config --global --add safe.directory '*'
