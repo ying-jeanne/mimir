@@ -32,8 +32,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
   
-      - name: Install GH CLI
-        uses: dev-hanz-ops/install-gh-cli-action
+      - name: Install the gh cli
+        uses: ksivamuthu/actions-setup-gh-cli@<VERSION>
+        with:
+          version: 2.24.3
 
       - name: Checkout Pull Request Branch
         run: gh pr checkout ${{ github.event.pull_request.number }}
