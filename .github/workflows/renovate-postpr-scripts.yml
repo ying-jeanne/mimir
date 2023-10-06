@@ -35,11 +35,6 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
 
-      - name: Checkout Pull Request Branch
-        run: gh pr checkout ${{ github.event.pull_request.number }}
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
       - name: Update Helm Test
         id: update
         run: |
