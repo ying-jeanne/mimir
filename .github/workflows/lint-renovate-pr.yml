@@ -25,8 +25,8 @@ jobs:
       - name: Update Helm Test
         id: update
         run: |
-          make doc
-          make build-helm-tests
+          make BUILD_IN_CONTAINER=false doc
+          make BUILD_IN_CONTAINER=false build-helm-tests
       
       - name: Check Updates
         id: check_updates
