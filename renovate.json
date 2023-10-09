@@ -13,7 +13,7 @@
       },
       {
         "packagePatterns": ["*"],
-        "matchCurrentVersion": "/^v\\d+.\\d+.\\d+-\\d{14}-[a-f0-9]+/",
+        "matchCurrentVersion": "/^v\\d+.\\d+.\\d+-(\\d+\\.)?\\d{14}-[a-f0-9]+/",
         "enabled": false
       }
     ],
