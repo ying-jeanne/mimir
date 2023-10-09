@@ -3,7 +3,7 @@
     "extends": [
       "config:base"
     ],
-    "prHourlyLimit": 4,
+    "prHourlyLimit": 1,
     "baseBranches": ["main", "release-2.10", "release-2.9"],
     "packageRules": [
       {
@@ -12,18 +12,12 @@
         "enabled": false
       },
       {
-        "groupName": "docker-dependencies",
-        "matchManagers": ["dockerfile"],
-        "matchUpdateTypes": ["minor", "patch", "major"],
-        "matchPackageNames": [
-          "k8s.gcr.io/kustomize/kustomize",
-          "alpine/helm",
-          "alpine",
-          "memcached",
-          "golang"
-        ]
+        "packagePatterns": ["*"],
+        "matchCurrentVersion": "/^v0.0.0-\\d{14}-[a-f0-9]+/",
+        "enabled": false
       }
     ],
+    "branchPrefix": "deps-update/",
     "vulnerabilityAlerts": {
       "enabled": true,
       "labels": ["security-update"]
