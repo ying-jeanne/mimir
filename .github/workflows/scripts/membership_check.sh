@@ -18,9 +18,9 @@ response=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: token $TOKE
 
 # Set the result as an environment variable
 if [ "$response" -eq 204 ]; then
-  echo "::set-output name=team_membership::true"
+  echo "team_membership::true" >> $GITHUB_OUTPUT
 elif [ "$response" -eq 404 ]; then
-  echo "::set-output name=team_membership::false"
+  echo "team_membership::false" >> $GITHUB_OUTPUT
 else
-  echo "::set-output name=team_membership::error"
+  echo "team_membership::error" >> $GITHUB_OUTPUT
 fi
