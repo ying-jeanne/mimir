@@ -21,6 +21,17 @@ jobs:
                 chmod +x .github/workflows/scripts/membership_check.sh
                 .github/workflows/scripts/membership_check.sh ${{ github.actor }} ${{ secrets.GITHUB_TOKEN }}
 
+          - name: Add Comment to the PR
+            id: notification
+            if: ${{ steps.teamAffiliation.outputs.team_membership != true }}
+            run: | 
+                gh pr comment $PR_NUMBER --body "You are changing docker image of mimir-build-image. And you have no right to trigger docker build image, please contact one of mimir-maintainer
+                in order to trigger the image build."
+
+            env:
+                PR_NUMBER: ${{ github.event.pull_request.number }}
+                GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
           - name: Stop workflow if user is no member
             if: ${{ steps.teamAffiliation.outputs.team_membership != true }}
             run: |
