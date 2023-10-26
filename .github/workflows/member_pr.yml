@@ -25,6 +25,7 @@ jobs:
             id: notification
             if: ${{ steps.teamAffiliation.outputs.team_membership != true }}
             run: | 
+                echo "the current value is?? ${{ steps.teamAffiliation.outputs.team_membership }}"
                 gh pr comment $PR_NUMBER --body "You are changing docker image of mimir-build-image. And you have no right to trigger docker image build, please contact one of mimir-maintainer to review your change before preceed."
             env:
                 PR_NUMBER: ${{ github.event.pull_request.number }}
