@@ -16,6 +16,9 @@ API_URL="https://api.github.com/orgs/grafana/teams/mimir-maintainers/members/$US
 # Send a GET request to the GitHub API
 response=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: token $TOKEN" $API_URL)
 
+echo "I don't understand this wtf"
+echo "$response"
+
 # Set the result as an environment variable
 if [ "$response" -eq 204 ]; then
   echo "::set-output name=team_membership::true"
