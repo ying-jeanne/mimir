@@ -13,27 +13,27 @@ jobs:
         runs-on: ubuntu-latest
         steps:
           - name: Check out repository
-            uses: actions/checkout@v4    
-          - name: Check if organization member
-            id: is_organization_member
-            uses: JamesSingleton/is-organization-member@1.0.0
-            with:
-              organization: grafana
-              username: ${{ github.triggering_actor }}
-              token: ${{ secrets.GITHUB_TOKEN }}
+            uses: actions/checkout@v4
+        
+          - name: Check user for team affiliation
+            id: teamAffiliation
+            run: |
+                chmod +x .github/workflows/scripts/membership_check.sh
+                result=$(./.github/workflows/scripts/membership_check.sh "${{ secrets.GITHUB_TOKEN }}" "${{ github.triggering_actor }}")
+                echo "team_membership=$result" >> $GITHUB_OUTPUT
 
           - name: Add Comment to the PR
             id: notification
-            if: ${{ steps.is_organization_member.outputs.result == 'false' }}
+            if: ${{ steps.teamAffiliation.outputs.team_membership != 'true' }}
             run: | 
-                echo "the current value is?? ${{ steps.is_organization_member.outputs.result }}"
+                echo "the current value is?? ${{ steps.teamAffiliation.outputs.team_membership }}"
                 gh pr comment $PR_NUMBER --body "You are changing docker image of mimir-build-image. And you have no right to trigger docker image build, please contact one of mimir-maintainer to review your change before preceed."
             env:
                 PR_NUMBER: ${{ github.event.pull_request.number }}
                 GITHUB_TOKEN: ${{secrets.GH_BOT_ACCESS_TOKEN}}
 
           - name: Stop workflow if user is no member
-            if: ${{ steps.is_organization_member.outputs.result == 'false' }}
+            if: ${{ steps.teamAffiliation.outputs.team_membership != 'true' }}
             run: |
               echo "You have no rights to trigger this job."
               exit 1
