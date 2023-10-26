@@ -1,0 +1,26 @@
+### .github/workflows/member_pr.yml
+### This workflow runs against target branch, which is main, so no pull request would able to modify the logic here
+### unitl the pull request is merged into main
+name: Membership check
+on:
+    # this needs to be pull_request_target, not pull_request, just put pull_request to test
+    pull_request:
+        types: [opened, synchronize]
+        paths:
+          - mimir-build-image/Dockerfile 
+jobs:
+    check-membership:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Check user for team affiliation
+            uses: tspascoal/get-user-teams-membership@v2
+            id: teamAffiliation
+            with:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              username: ${{ github.actor }}
+              team: mimir-maintainers
+          - name: Stop workflow if user is no member
+            if: ${{ steps.teamAffiliation.outputs.isTeamMember == false }}
+            run: |
+              echo "You have no rights to trigger this job."
+              exit 1
