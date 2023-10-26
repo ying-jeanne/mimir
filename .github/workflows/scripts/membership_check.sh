@@ -18,7 +18,8 @@ API_URL="https://api.github.com/orgs/grafana/teams/mimir-maintainers/members/$EN
 
 # Send a GET request to the GitHub API
 response=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: token $TOKEN" $API_URL)
-
+echo "so what is the response?"
+echo "$response"
 # Check if the response is empty or non-integer
 if [ -z "$response" ]; then
   echo "error"
