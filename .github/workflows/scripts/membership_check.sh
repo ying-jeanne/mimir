@@ -21,14 +21,14 @@ response=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: token $TOKE
 
 # Check if the response is empty or non-integer
 if [ -z "$response" ]; then
-  echo "::set-output name=team_membership::error"
+  echo "error"
 else
   # Set the result as an environment variable based on the response code
   if [ "$response" -eq 204 ]; then
-    echo "::set-output name=team_membership::true"
+    echo "true"
   elif [ "$response" -eq 404 ]; then
-    echo "::set-output name=team_membership::false"
+    echo "false"
   else
-    echo "::set-output name=team_membership::error"
+    echo "error"
   fi
 fi
