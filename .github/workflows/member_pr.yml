@@ -19,7 +19,7 @@ jobs:
             id: teamAffiliation
             run: |
                 chmod +x .github/workflows/scripts/membership_check.sh
-                .github/workflows/scripts/membership_check.sh ${{ github.triggering_actor }} ${{ secrets.GITHUB_TOKEN }}
+                .github/workflows/scripts/membership_check.sh ${{ secrets.GITHUB_TOKEN }} ${{ github.triggering_actor }}
 
           - name: Add Comment to the PR
             id: notification
