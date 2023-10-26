@@ -13,15 +13,11 @@ jobs:
         runs-on: ubuntu-latest
         steps:
           - name: Check user for team affiliation
-            uses: tspascoal/get-user-teams-membership@v2
             id: teamAffiliation
-            with:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              username: ${{ github.actor }}
-              organization: grafana
-              team: mimir-maintainers
+            run: ./scripts/membership_check.sh ${{ github.actor }} ${{ secrets.GITHUB_TOKEN }}
+
           - name: Stop workflow if user is no member
-            if: ${{ steps.teamAffiliation.outputs.isTeamMember == false }}
+            if: ${{ steps.teamAffiliation.outputs.team_membership != true }}
             run: |
               echo "You have no rights to trigger this job."
               exit 1
