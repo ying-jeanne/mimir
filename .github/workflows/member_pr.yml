@@ -12,9 +12,12 @@ jobs:
     check-membership:
         runs-on: ubuntu-latest
         steps:
+          - name: Check out repository
+            uses: actions/checkout@v4
+        
           - name: Check user for team affiliation
             id: teamAffiliation
-            run: ./scripts/membership_check.sh ${{ github.actor }} ${{ secrets.GITHUB_TOKEN }}
+            run: .github/workflows/scripts/membership_check.sh ${{ github.actor }} ${{ secrets.GITHUB_TOKEN }}
 
           - name: Stop workflow if user is no member
             if: ${{ steps.teamAffiliation.outputs.team_membership != true }}
