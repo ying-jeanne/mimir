@@ -25,8 +25,8 @@ jobs:
       - name: test
         run: |
           # Loop through the pull_requests array and print each element
-          first_pull_request_url=$(${{ toJson(github.event.workflow_run.pull_requests) }} | jq -r '.[0].url')
-          echo "URL of the First Pull Request: $first_pull_request_url"
+          DATA=$(echo ${{ github.event.workflow_run.pull_requests }} | jq -r '.[0].url') 
+          echo "URL of the First Pull Request: $DATA"
     #   - name: Checkout Repository
     #     uses: actions/checkout@v4
 
