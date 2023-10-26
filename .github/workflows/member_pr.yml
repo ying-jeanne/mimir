@@ -18,6 +18,7 @@ jobs:
             with:
               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               username: ${{ github.actor }}
+              org: grafana
               team: mimir-maintainers
           - name: Stop workflow if user is no member
             if: ${{ steps.teamAffiliation.outputs.isTeamMember == false }}
