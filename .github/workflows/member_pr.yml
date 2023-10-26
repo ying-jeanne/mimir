@@ -18,10 +18,24 @@ jobs:
           - name: Check user for team affiliation
             id: teamAffiliation
             run: |
-                chmod +x .github/workflows/scripts/membership_check.sh
-                result=$(./.github/workflows/scripts/membership_check.sh "${{ secrets.GH_BOT_ACCESS_TOKEN }}" "${{ github.triggering_actor }}")
-                echo "I want to know what I am getting here $result"
-                echo "team_membership=$result" >> $GITHUB_OUTPUT
+                ENCODED_USERNAME=$(printf %s "${{ github.triggering_actor }}" | xxd -p -c 256 | tr -d '\n' | sed 's/\(..\)/%\1/g')
+                # Set the GitHub API URL
+                API_URL="https://api.github.com/orgs/grafana/teams/mimir-maintainers/members/$ENCODED_USERNAME"
+                # Send a GET request to the GitHub API
+                response=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: token ${{ secrets.GH_BOT_ACCESS_TOKEN }}" $API_URL)
+                # Check if the response is empty or non-integer
+                if [ -z "$response" ]; then
+                  echo "team_membership=error" >> $GITHUB_OUTPUT
+                else
+                  # Set the result as an environment variable based on the response code
+                  if [ "$response" -eq 204 ]; then
+                    echo "team_membership=true" >> $GITHUB_OUTPUT
+                  elif [ "$response" -eq 404 ]; then
+                    echo "team_membership=false" >> $GITHUB_OUTPUT
+                  else
+                    echo "team_membership=error" >> $GITHUB_OUTPUT
+                  fi
+                fi
 
           - name: Add Comment to the PR
             id: notification
