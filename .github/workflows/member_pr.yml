@@ -20,6 +20,7 @@ jobs:
             run: |
                 chmod +x .github/workflows/scripts/membership_check.sh
                 result=$(./.github/workflows/scripts/membership_check.sh "${{ secrets.GITHUB_TOKEN }}" "${{ github.triggering_actor }}")
+                echo "I want to know what I am getting here $result"
                 echo "team_membership=$result" >> $GITHUB_OUTPUT
 
           - name: Add Comment to the PR
