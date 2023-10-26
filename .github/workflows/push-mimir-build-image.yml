@@ -24,7 +24,14 @@ jobs:
     steps:
       - name: test
         run: |
-          echo "the list of pull requests are ${{ github.event.workflow_run.pull_requests}}"
+          # Loop through the pull_requests array and print each element
+          for pr in ${{ toJson(github.event.workflow_run.pull_requests) }}; do
+            echo "Pull Request Title: $pr.title"
+            echo "Pull Request Number: $pr.number"
+            echo "User Login: $pr.user.login"
+            # Add more fields as needed
+            echo ""
+          done
     #   - name: Checkout Repository
     #     uses: actions/checkout@v4
 
