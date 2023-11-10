@@ -8,7 +8,7 @@
     "packageRules": [
       {
         "matchBaseBranches": ["release-2.10","release-2.9"],
-        "excludeDepPatterns": [".*\[SECURITY\].*"],
+        "excludeDepPatterns": [".*SECURITY.*"],
         "enabled": false
       },
       {
