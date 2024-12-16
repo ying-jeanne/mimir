@@ -11,8 +11,6 @@ permissions:
 jobs:
   dependabot-reviewer:
     runs-on: ubuntu-latest
-
-    if: ${{ github.event.pull_request.user.login == 'grafanabot' }}
     
     steps:
       - name: Checkout Repository
