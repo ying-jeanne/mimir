@@ -18,7 +18,7 @@ jobs:
 
       - name: Approve and auto-merge
         id: auto-merge
-        if: contains(github.ref, 'helm-chart-weekly-')
+        if: contains(github.event.pull_request.head.ref, 'helm-chart-weekly-')
         run: |
           gh pr merge --auto --squash "$PR_URL"
           gh pr review $PR_URL \
