@@ -16,13 +16,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Helm Weekly release
-        id: helm-weekly-release
-        if : contains(github.ref, 'helm-chart-weekly-')
-        run: echo "isHelmRelease=true" >> $GITHUB_OUTPUT
-
       - name: Approve and auto-merge
-        if: (steps.helm-weekly-release.conclusion == 'success' && steps.helm-weekly-release.outputs.isHelmRelease == 'true')
+        id: auto-merge
+        if: contains(github.ref, 'helm-chart-weekly-')
         run: |
           gh pr merge --auto --squash "$PR_URL"
           gh pr review $PR_URL \
@@ -32,9 +28,9 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GH_BOT_ACCESS_TOKEN}}
 
       - name: Manual review is required
-        if: steps.helm-weekly-release.conclusion != 'skip' && steps.helm-weekly-release.conclusion != 'success' 
+        if: steps.auto-merge.conclusion != 'success'
         run: |
-          gh pr comment $PR_URL --body "**This PR requires manual review.**"
+          gh pr comment $PR_URL --body "**This PR from grafanabot requires manual review.**"
 
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
