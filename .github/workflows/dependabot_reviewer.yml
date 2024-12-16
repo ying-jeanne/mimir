@@ -11,8 +11,6 @@ permissions:
 jobs:
   dependabot-reviewer:
     runs-on: ubuntu-latest
-
-    if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' }}
     
     steps:
       - name: Checkout Repository
@@ -20,7 +18,7 @@ jobs:
 
       - name: Dependabot metadata
         id: metadata
-        uses: dependabot/fetch-metadata@v1.6.0
+        uses: dependabot/fetch-metadata@v2.2.0
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
 
@@ -53,21 +51,23 @@ jobs:
             echo "allInAllowlist=false" >> $GITHUB_OUTPUT
           fi
 
+      - name: Helm Weekly release
+        id: helm-weekly-release
+        if : contains(github.ref, 'helm-chart-weekly-')
+        run: echo "isHelmRelease=true" >> $GITHUB_OUTPUT
+
       - name: Approve and auto-merge
-        if: steps.check-allowlist.conclusion == 'success' && steps.check-allowlist.outputs.allInAllowlist == 'true'
+        if: steps.check-allowlist.conclusion == 'success' && steps.check-allowlist.outputs.allInAllowlist == 'true' || (steps.helm-weekly-release.conclusion == 'success' && steps.helm-weekly-release.outputs.isHelmRelease == 'true')
         run: |
           gh pr merge --auto --squash "$PR_URL"
           gh pr review $PR_URL \
-          --approve -b "**I'm approving** this pull request because it includes a patch or minor \
-          update to dependencies that are already in the allowlist.
-
-          The reason this library is in the allowlist is that ${{ steps.check-allowlist.outputs.reasons}}"
+          --approve -b "**I'm approving** this pull request, since it is a helm release or all libraries are in the allowlist."
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
           GITHUB_TOKEN: ${{secrets.GH_BOT_ACCESS_TOKEN}}
 
       - name: Manual review is required
-        if: steps.check-allowlist.conclusion != 'success' || steps.check-allowlist.outputs.allInAllowlist == 'false'
+        if: steps.helm-weekly-release.conclusion == 'skip' && (steps.check-allowlist.conclusion != 'success' || steps.check-allowlist.outputs.allInAllowlist == 'false')
         run: |
           gh pr comment $PR_URL --body "**This library is not auto-approved**
 
