@@ -11,7 +11,7 @@ permissions:
 jobs:
   dependabot-reviewer:
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -22,7 +22,7 @@ jobs:
         run: |
           gh pr merge --auto --squash "$PR_URL"
           gh pr review $PR_URL \
-          --approve -b "**I'm approving** this pull request, since it is a helm release. ${{ github.ref }}"
+          --approve -b "**I'm approving** this pull request, since it is a helm release."
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
           GITHUB_TOKEN: ${{secrets.GH_BOT_ACCESS_TOKEN}}
@@ -30,7 +30,7 @@ jobs:
       - name: Manual review is required
         if: steps.auto-merge.conclusion != 'success'
         run: |
-          gh pr comment $PR_URL --body "**This PR from grafanabot requires manual review.**"
+          gh pr comment $PR_URL --body "**This PR from grafanabot requires manual review.** ${{ github.ref }}"
 
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
