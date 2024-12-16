@@ -53,4 +53,4 @@ Your feedback is always welcome, and you can also share it via the [`#mimir` Sla
 
 Grafana Mimir is distributed under [AGPL-3.0-only](LICENSE).
 
-test test test test
+test test test
